@@ -1,0 +1,113 @@
+---
+title: ""
+author: ""
+output: pdf_document
+css: style.css
+---
+
+
+```{r setup, include=FALSE}
+
+## Este código genera un informe a partir de una planilla excel con determinado formato y una serie de fotos
+
+knitr::opts_chunk$set(echo = TRUE)
+
+setwd("~/Documents/Data Science/Mapfre Seguros")
+
+# La primera vez es necesario instalar los paquetes
+# install.packages("knitr")
+# install.packages("kableExtra")
+# install.packages("data.table")
+# install.packages("magick")
+library(datasets)
+library(knitr)
+library(kableExtra)
+library(data.table)
+library(magick)
+
+```
+
+
+
+## 1.	IDENTIFICACIÓN RIESGO, DATOS GENERALES
+
+```{r datos, echo=FALSE}
+fondo <- image_read("~/Documents/Data Science/Mapfre Seguros/fondo.png", "50")
+fondo2<- image_read("~/Documents/Data Science/Mapfre Seguros/fondo2.png", "300")
+load("Industrial.RData")
+datos.t<- transpose(datos[1,])
+datos.t$Valor <- datos.t$V1
+datos.t$V1<- colnames(datos)
+colnames(datos.t)=c("Factor","Resultado")
+tabla1<- datos.t[c(8,17:35),]
+
+image_scale(fondo,"100")
+kable(tabla1, row.names = FALSE) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(column=1, background = "#FCF3CF", border_left=TRUE) %>%
+  column_spec(column=2, background ="white",border_right=TRUE) %>%
+  row_spec(row=0, background="#F5B041", bold=TRUE ,color = "white") 
+  
+```
+
+##  2. RESULTADOS GLOBALES PARA LA TOMA DE DECISIONES 
+##   2.1. FACTORES TÉCNICOS
+
+```{r datos.t, echo=FALSE}
+
+tabla2<- datos.t[c(36:48),]
+kable(tabla2, row.names = FALSE) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(column=1, background = "#FCF3CF", border_left=TRUE) %>%
+  column_spec(column=2, background ="white", border_right=TRUE) %>%
+  row_spec(row=0, background="#F5B041") 
+
+tabla3<- datos.t[c(49,55),]
+kable(tabla3, row.names = FALSE) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(column=1, background = "#FCF3CF", border_left=TRUE) %>%
+  column_spec(column=2, background ="white", border_right=TRUE) %>%
+  row_spec(row=0, background="#F5B041") 
+
+```
+
+##  2.2. FACTORES COMERCIALES
+
+```{r, echo=FALSE}
+
+tabla4<- datos.t[c(56:62),]
+kable(tabla4, row.names = FALSE) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(column=1, background = "#FCF3CF", border_left=TRUE) %>%
+  column_spec(column=2, background ="white", border_right=TRUE) %>%
+  row_spec(row=0, background="#F5B041") 
+```
+
+## 2.3. DESCRIPCIÓN GENERAL
+
+
+## 3. MODULO UBICACIÓN 
+##  3.1. VISTA SATELITAL
+
+
+
+## 3.2. COLINDANCIAS
+
+```{r, echo=FALSE}
+
+tabla5<- cbind(datos.t[c(63,66,69,72),],datos.t[c(64,67,70,73),2],datos.t[c(65,68,71,74),2])
+colnames(tabla5)=c("","Colindancia","Distancia","Agravante")
+kable(tabla5, row.names = FALSE) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(column=1, background = "#FCF3CF", border_left=TRUE) %>%
+  column_spec(column=2, background ="white", border_right=TRUE) %>%
+  row_spec(row=0, background="#F5B041") 
+
+tabla6<- datos.t[c(75,77),]
+kable(tabla6, row.names = FALSE) %>%
+  kable_styling("striped", full_width = F) %>%
+  column_spec(column=1, background = "#FCF3CF", border_left=TRUE) %>%
+  column_spec(column=2, background ="white", border_right=TRUE) %>%
+  row_spec(row=0, background="#F5B041") 
+
+```
